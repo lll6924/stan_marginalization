@@ -1,12 +1,12 @@
 data {
-int J;
-vector<lower=J> y;
-vector<lower=J> sigma;
+int<lower=0> J;
+vector[J] y;
+vector<lower=0>[J] sigma;
 }
 parameters {
 real mu;
-real tau;
-vector<lower=J> theta;
+real<lower=0> tau;
+vector[J] theta;
 }
 model {
 mu ~ normal (0,5.0);

@@ -6,9 +6,9 @@ def printer(ys, xs, codes, filename):
         for y in ys.statements:
             st = y.type.type
             if y.type.lower is not None:
-                st += '<lower={}>'.format(y.type.lower.val)
+                st += '<lower={}>'.format(y.type.lower)
             if y.type.arraydef is not None:
-                st += '[{}]'.format(y.type.arraydef)
+                st += '[{}]'.format(y.type.arraydef.val)
             print(st, y.variable + ';', file=f)
         print('}', file=f)
 
@@ -16,9 +16,9 @@ def printer(ys, xs, codes, filename):
         for x in xs.statements:
             st = x.type.type
             if x.type.lower is not None:
-                st += '<lower={}>'.format(x.type.lower.val)
+                st += '<lower={}>'.format(x.type.lower)
             if x.type.arraydef is not None:
-                st += '[{}]'.format(x.type.arraydef)
+                st += '[{}]'.format(x.type.arraydef.val)
             print(st, x.variable + ';', file=f)
         print('}', file=f)
 

@@ -56,7 +56,7 @@ class Parser:
             lower : '<' LOWER '=' number '>'
                     | empty
         '''
-        if p[0] is None:
+        if p[1] is None:
             p[0] = None
         else:
             p[0] = p[4]

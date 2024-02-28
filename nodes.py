@@ -33,7 +33,7 @@ class Expression:
         return str(self.number)
 
 class Type:
-    def __init__(self, type, arraydef, lower):
+    def __init__(self, type, lower, arraydef):
         self.type = type
         self.arraydef = arraydef
         self.lower = lower
