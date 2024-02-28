@@ -1,0 +1,525 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> block_list
+Rule 1     number -> INTEGER
+Rule 2     number -> FLOAT
+Rule 3     expression -> number
+Rule 4     expression -> ID
+Rule 5     expression_list -> expression_list , expression
+Rule 6     expression_list -> expression
+Rule 7     arraydef -> [ expression ]
+Rule 8     arraydef -> empty
+Rule 9     lower -> < LOWER = number >
+Rule 10    lower -> empty
+Rule 11    type -> INT lower arraydef
+Rule 12    type -> REAL lower arraydef
+Rule 13    type -> VECTOR lower arraydef
+Rule 14    statement -> type ID ;
+Rule 15    statement -> ID ~ ID ( expression_list ) ;
+Rule 16    statement_list -> statement_list statement
+Rule 17    statement_list -> statement
+Rule 18    block -> ID { statement_list }
+Rule 19    block_list -> block_list block
+Rule 20    block_list -> block
+Rule 21    empty -> <empty>
+
+Terminals, with rules where they appear
+
+(                    : 15
+)                    : 15
+,                    : 5
+;                    : 14 15
+<                    : 9
+=                    : 9
+>                    : 9
+FLOAT                : 2
+ID                   : 4 14 15 15 18
+INT                  : 11
+INTEGER              : 1
+LOWER                : 9
+REAL                 : 12
+VECTOR               : 13
+[                    : 7
+]                    : 7
+error                : 
+{                    : 18
+}                    : 18
+~                    : 15
+
+Nonterminals, with rules where they appear
+
+arraydef             : 11 12 13
+block                : 19 20
+block_list           : 19 0
+empty                : 8 10
+expression           : 5 6 7
+expression_list      : 5 15
+lower                : 11 12 13
+number               : 3 9
+statement            : 16 17
+statement_list       : 16 18
+type                 : 14
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . block_list
+    (19) block_list -> . block_list block
+    (20) block_list -> . block
+    (18) block -> . ID { statement_list }
+
+    ID              shift and go to state 3
+
+    block_list                     shift and go to state 1
+    block                          shift and go to state 2
+
+state 1
+
+    (0) S' -> block_list .
+    (19) block_list -> block_list . block
+    (18) block -> . ID { statement_list }
+
+    ID              shift and go to state 3
+
+    block                          shift and go to state 4
+
+state 2
+
+    (20) block_list -> block .
+
+    ID              reduce using rule 20 (block_list -> block .)
+    $end            reduce using rule 20 (block_list -> block .)
+
+
+state 3
+
+    (18) block -> ID . { statement_list }
+
+    {               shift and go to state 5
+
+
+state 4
+
+    (19) block_list -> block_list block .
+
+    ID              reduce using rule 19 (block_list -> block_list block .)
+    $end            reduce using rule 19 (block_list -> block_list block .)
+
+
+state 5
+
+    (18) block -> ID { . statement_list }
+    (16) statement_list -> . statement_list statement
+    (17) statement_list -> . statement
+    (14) statement -> . type ID ;
+    (15) statement -> . ID ~ ID ( expression_list ) ;
+    (11) type -> . INT lower arraydef
+    (12) type -> . REAL lower arraydef
+    (13) type -> . VECTOR lower arraydef
+
+    ID              shift and go to state 6
+    INT             shift and go to state 10
+    REAL            shift and go to state 11
+    VECTOR          shift and go to state 12
+
+    statement_list                 shift and go to state 7
+    statement                      shift and go to state 8
+    type                           shift and go to state 9
+
+state 6
+
+    (15) statement -> ID . ~ ID ( expression_list ) ;
+
+    ~               shift and go to state 13
+
+
+state 7
+
+    (18) block -> ID { statement_list . }
+    (16) statement_list -> statement_list . statement
+    (14) statement -> . type ID ;
+    (15) statement -> . ID ~ ID ( expression_list ) ;
+    (11) type -> . INT lower arraydef
+    (12) type -> . REAL lower arraydef
+    (13) type -> . VECTOR lower arraydef
+
+    }               shift and go to state 14
+    ID              shift and go to state 6
+    INT             shift and go to state 10
+    REAL            shift and go to state 11
+    VECTOR          shift and go to state 12
+
+    statement                      shift and go to state 15
+    type                           shift and go to state 9
+
+state 8
+
+    (17) statement_list -> statement .
+
+    }               reduce using rule 17 (statement_list -> statement .)
+    ID              reduce using rule 17 (statement_list -> statement .)
+    INT             reduce using rule 17 (statement_list -> statement .)
+    REAL            reduce using rule 17 (statement_list -> statement .)
+    VECTOR          reduce using rule 17 (statement_list -> statement .)
+
+
+state 9
+
+    (14) statement -> type . ID ;
+
+    ID              shift and go to state 16
+
+
+state 10
+
+    (11) type -> INT . lower arraydef
+    (9) lower -> . < LOWER = number >
+    (10) lower -> . empty
+    (21) empty -> .
+
+    <               shift and go to state 18
+    [               reduce using rule 21 (empty -> .)
+    ID              reduce using rule 21 (empty -> .)
+
+    lower                          shift and go to state 17
+    empty                          shift and go to state 19
+
+state 11
+
+    (12) type -> REAL . lower arraydef
+    (9) lower -> . < LOWER = number >
+    (10) lower -> . empty
+    (21) empty -> .
+
+    <               shift and go to state 18
+    [               reduce using rule 21 (empty -> .)
+    ID              reduce using rule 21 (empty -> .)
+
+    lower                          shift and go to state 20
+    empty                          shift and go to state 19
+
+state 12
+
+    (13) type -> VECTOR . lower arraydef
+    (9) lower -> . < LOWER = number >
+    (10) lower -> . empty
+    (21) empty -> .
+
+    <               shift and go to state 18
+    [               reduce using rule 21 (empty -> .)
+    ID              reduce using rule 21 (empty -> .)
+
+    lower                          shift and go to state 21
+    empty                          shift and go to state 19
+
+state 13
+
+    (15) statement -> ID ~ . ID ( expression_list ) ;
+
+    ID              shift and go to state 22
+
+
+state 14
+
+    (18) block -> ID { statement_list } .
+
+    ID              reduce using rule 18 (block -> ID { statement_list } .)
+    $end            reduce using rule 18 (block -> ID { statement_list } .)
+
+
+state 15
+
+    (16) statement_list -> statement_list statement .
+
+    }               reduce using rule 16 (statement_list -> statement_list statement .)
+    ID              reduce using rule 16 (statement_list -> statement_list statement .)
+    INT             reduce using rule 16 (statement_list -> statement_list statement .)
+    REAL            reduce using rule 16 (statement_list -> statement_list statement .)
+    VECTOR          reduce using rule 16 (statement_list -> statement_list statement .)
+
+
+state 16
+
+    (14) statement -> type ID . ;
+
+    ;               shift and go to state 23
+
+
+state 17
+
+    (11) type -> INT lower . arraydef
+    (7) arraydef -> . [ expression ]
+    (8) arraydef -> . empty
+    (21) empty -> .
+
+    [               shift and go to state 25
+    ID              reduce using rule 21 (empty -> .)
+
+    arraydef                       shift and go to state 24
+    empty                          shift and go to state 26
+
+state 18
+
+    (9) lower -> < . LOWER = number >
+
+    LOWER           shift and go to state 27
+
+
+state 19
+
+    (10) lower -> empty .
+
+    [               reduce using rule 10 (lower -> empty .)
+    ID              reduce using rule 10 (lower -> empty .)
+
+
+state 20
+
+    (12) type -> REAL lower . arraydef
+    (7) arraydef -> . [ expression ]
+    (8) arraydef -> . empty
+    (21) empty -> .
+
+    [               shift and go to state 25
+    ID              reduce using rule 21 (empty -> .)
+
+    arraydef                       shift and go to state 28
+    empty                          shift and go to state 26
+
+state 21
+
+    (13) type -> VECTOR lower . arraydef
+    (7) arraydef -> . [ expression ]
+    (8) arraydef -> . empty
+    (21) empty -> .
+
+    [               shift and go to state 25
+    ID              reduce using rule 21 (empty -> .)
+
+    arraydef                       shift and go to state 29
+    empty                          shift and go to state 26
+
+state 22
+
+    (15) statement -> ID ~ ID . ( expression_list ) ;
+
+    (               shift and go to state 30
+
+
+state 23
+
+    (14) statement -> type ID ; .
+
+    }               reduce using rule 14 (statement -> type ID ; .)
+    ID              reduce using rule 14 (statement -> type ID ; .)
+    INT             reduce using rule 14 (statement -> type ID ; .)
+    REAL            reduce using rule 14 (statement -> type ID ; .)
+    VECTOR          reduce using rule 14 (statement -> type ID ; .)
+
+
+state 24
+
+    (11) type -> INT lower arraydef .
+
+    ID              reduce using rule 11 (type -> INT lower arraydef .)
+
+
+state 25
+
+    (7) arraydef -> [ . expression ]
+    (3) expression -> . number
+    (4) expression -> . ID
+    (1) number -> . INTEGER
+    (2) number -> . FLOAT
+
+    ID              shift and go to state 33
+    INTEGER         shift and go to state 34
+    FLOAT           shift and go to state 35
+
+    expression                     shift and go to state 31
+    number                         shift and go to state 32
+
+state 26
+
+    (8) arraydef -> empty .
+
+    ID              reduce using rule 8 (arraydef -> empty .)
+
+
+state 27
+
+    (9) lower -> < LOWER . = number >
+
+    =               shift and go to state 36
+
+
+state 28
+
+    (12) type -> REAL lower arraydef .
+
+    ID              reduce using rule 12 (type -> REAL lower arraydef .)
+
+
+state 29
+
+    (13) type -> VECTOR lower arraydef .
+
+    ID              reduce using rule 13 (type -> VECTOR lower arraydef .)
+
+
+state 30
+
+    (15) statement -> ID ~ ID ( . expression_list ) ;
+    (5) expression_list -> . expression_list , expression
+    (6) expression_list -> . expression
+    (3) expression -> . number
+    (4) expression -> . ID
+    (1) number -> . INTEGER
+    (2) number -> . FLOAT
+
+    ID              shift and go to state 33
+    INTEGER         shift and go to state 34
+    FLOAT           shift and go to state 35
+
+    expression_list                shift and go to state 37
+    expression                     shift and go to state 38
+    number                         shift and go to state 32
+
+state 31
+
+    (7) arraydef -> [ expression . ]
+
+    ]               shift and go to state 39
+
+
+state 32
+
+    (3) expression -> number .
+
+    ]               reduce using rule 3 (expression -> number .)
+    )               reduce using rule 3 (expression -> number .)
+    ,               reduce using rule 3 (expression -> number .)
+
+
+state 33
+
+    (4) expression -> ID .
+
+    ]               reduce using rule 4 (expression -> ID .)
+    )               reduce using rule 4 (expression -> ID .)
+    ,               reduce using rule 4 (expression -> ID .)
+
+
+state 34
+
+    (1) number -> INTEGER .
+
+    ]               reduce using rule 1 (number -> INTEGER .)
+    )               reduce using rule 1 (number -> INTEGER .)
+    ,               reduce using rule 1 (number -> INTEGER .)
+    >               reduce using rule 1 (number -> INTEGER .)
+
+
+state 35
+
+    (2) number -> FLOAT .
+
+    ]               reduce using rule 2 (number -> FLOAT .)
+    )               reduce using rule 2 (number -> FLOAT .)
+    ,               reduce using rule 2 (number -> FLOAT .)
+    >               reduce using rule 2 (number -> FLOAT .)
+
+
+state 36
+
+    (9) lower -> < LOWER = . number >
+    (1) number -> . INTEGER
+    (2) number -> . FLOAT
+
+    INTEGER         shift and go to state 34
+    FLOAT           shift and go to state 35
+
+    number                         shift and go to state 40
+
+state 37
+
+    (15) statement -> ID ~ ID ( expression_list . ) ;
+    (5) expression_list -> expression_list . , expression
+
+    )               shift and go to state 41
+    ,               shift and go to state 42
+
+
+state 38
+
+    (6) expression_list -> expression .
+
+    )               reduce using rule 6 (expression_list -> expression .)
+    ,               reduce using rule 6 (expression_list -> expression .)
+
+
+state 39
+
+    (7) arraydef -> [ expression ] .
+
+    ID              reduce using rule 7 (arraydef -> [ expression ] .)
+
+
+state 40
+
+    (9) lower -> < LOWER = number . >
+
+    >               shift and go to state 43
+
+
+state 41
+
+    (15) statement -> ID ~ ID ( expression_list ) . ;
+
+    ;               shift and go to state 44
+
+
+state 42
+
+    (5) expression_list -> expression_list , . expression
+    (3) expression -> . number
+    (4) expression -> . ID
+    (1) number -> . INTEGER
+    (2) number -> . FLOAT
+
+    ID              shift and go to state 33
+    INTEGER         shift and go to state 34
+    FLOAT           shift and go to state 35
+
+    expression                     shift and go to state 45
+    number                         shift and go to state 32
+
+state 43
+
+    (9) lower -> < LOWER = number > .
+
+    [               reduce using rule 9 (lower -> < LOWER = number > .)
+    ID              reduce using rule 9 (lower -> < LOWER = number > .)
+
+
+state 44
+
+    (15) statement -> ID ~ ID ( expression_list ) ; .
+
+    }               reduce using rule 15 (statement -> ID ~ ID ( expression_list ) ; .)
+    ID              reduce using rule 15 (statement -> ID ~ ID ( expression_list ) ; .)
+    INT             reduce using rule 15 (statement -> ID ~ ID ( expression_list ) ; .)
+    REAL            reduce using rule 15 (statement -> ID ~ ID ( expression_list ) ; .)
+    VECTOR          reduce using rule 15 (statement -> ID ~ ID ( expression_list ) ; .)
+
+
+state 45
+
+    (5) expression_list -> expression_list , expression .
+
+    )               reduce using rule 5 (expression_list -> expression_list , expression .)
+    ,               reduce using rule 5 (expression_list -> expression_list , expression .)
+
